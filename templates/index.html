@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Urlshortner</title>
+    <style>
+        body{
+            background-color: plum;
+            min-height: 100vh;
+            font-family: "Bitstream Vera Sans Mono", Monaco, "Courier New", Courier, monospace;
+            line-height: 1.5;
+            color: #111;
+        }
+        body, section{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+        }
+        h1{
+            text-align: center;
+            margin-top: 100px;
+            padding: 1rem;
+
+        }
+        main{
+            max-width: 720px;
+            width: 100%;
+            border: 3px solid #330867;
+            border-radius: 3px;
+            background-image: linear-gradient(to top, #ef82dc, #5d025d 100%);
+        }
+        input,
+     button{
+     font-family: inherit;
+     line-height: inherit;
+     color: inherit;
+     border: 0;
+     padding: 1rem;
+      }
+        input{
+            box-sizing: border-box;
+            width: 100%;
+        }
+        .buttons{
+            display: flex;
+        }
+        button{
+            cursor: pointer;
+            flex: 1;
+            background-color: transparent;
+            color: white;
+        }
+        button:hover{
+            background-color: #8f338f;
+        }
+        section{
+            min-height: 120px;
+            text-align: center;
+            background-color: #a92fa9;
+        }
+
+
+    </style>
+</head>
+<body>
+<main>
+<h1>U<span style="color: white">RL</span>SH<span style="color: white">ORTE</span>NER</h1>
+    <form id="post-form">
+        {% csrf_token %}
+        <input type="text" name="link" id="link" placeholder="Enter URL here">
+        <div class="buttons">
+            <button type="submit" id="shorten">Shorten</button>
+        </div>
+    </form>
+    <section id="section"><h2></h2></section>
+</main>
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script type="text/javascript">
+    $(document).on('submit', '#post-form', function (e){
+        e.preventDefault();
+
+        $.ajax({
+            type:'POST',
+            url:'/create',
+            data:{
+                link:$('#link').val(),
+                csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val(),
+            },
+            success: function (data){
+                $('h2').html("localhost:8000/"+data)
+
+            }
+        });
+    });
+</script>
+
+</body>
+</html>
